@@ -81,14 +81,14 @@ while(l<=22):
                     if int(user_id) and len(video_id) == 11:
                         if user_id not in data:
                             data[user_id]={}
-                        data[user_id][video_id]=1
+                        data[user_id][video_id]=timestamp
             except:
                 continue
 
         for i in data.keys():
             for j in data[i].keys():
-                print i, j
-                logs.write(i+','+j+'\n')
+                print i, j, data[i][j]
+                logs.write(i+','+j+','+data[i][j]'\n')
 
         conn = psycopg2.connect("host='localhost' port='5432' dbname='logs' user='postgres' password='zapdos123'")
         cur = conn.cursor()
