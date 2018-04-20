@@ -24,14 +24,16 @@ try:
             break
 
         if start == True:
-            if row[0] == user1 && datetime.strptime(row[2], FMT) - datetime.strptime(time1, FMT) < 30
-                if row[1] not in myDict:
-                    myDict[row[1]] = 0
+            if row[0] == user1:
+                tdelta = datetime.strptime(row[3], FMT) - datetime.strptime(time1, FMT)
+                if tdelta.seconds < 1800:
+                    if row[1] not in myDict:
+                        myDict[row[1]] = 0
                     myDict[row[1]] += 1
             start = False
 
         if row[1] == needed:
-            time1 = row[2]
+            time1 = row[3]
             user1 = row[0]
             start = True
 
