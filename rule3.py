@@ -1,9 +1,13 @@
 import psycopg2
 import operator
 import sys
+from datetime import datetime
 
 con = None
 needed = "lq_xzBRIWm4"
+user1 = ""
+time1 = ""
+FMT = '%H:%M:%S'
 
 try:
     con = psycopg2.connect("host='localhost' dbname='logs' user='postgres' password='qwerty123'")
@@ -20,12 +24,15 @@ try:
             break
 
         if start == True:
-            if row[1] not in myDict:
-                myDict[row[1]] = 0
-            myDict[row[1]]+=1
+            if row[0] == user1 && datetime.strptime(row[2], FMT) - datetime.strptime(time1, FMT) < 30
+                if row[1] not in myDict:
+                    myDict[row[1]] = 0
+                    myDict[row[1]] += 1
             start = False
 
         if row[1] == needed:
+            time1 = row[2]
+            user1 = row[0]
             start = True
 
     sorted_dict = sorted(myDict.items(), key=operator.itemgetter(1), reverse = True)
@@ -33,10 +40,10 @@ try:
     counter = 0
 
     for i in sorted_dict:
-    	print i
-    	counter += 1
-    	if(counter > 6):
-    		break
+        print i
+        counter += 1
+        if(counter > 6):
+            break
 
 
 
