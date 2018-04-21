@@ -2,54 +2,51 @@ import psycopg2
 import operator
 import sys
 
-con = NONE
-
-string needed = ASDFGHJKL
+con = None
+needed = "lq_xzBRIWm4"
 
 try:
-    con = psycopg2.connect("host='localhost' dbname='logs' user='pythonspot' password='qwerty123'")   
+    con = psycopg2.connect("host='localhost' dbname='logs' user='postgres' password='qwerty123'")
     cur = con.cursor()
-    cur.execute("SELECT * FROM user_video ORDER BY user_id,date,time")
+    cur.execute("select user_id, video_id, date, time from user_video group by user_id,video_id,date, time order by user_id, date, time")
 
     myDict = {}
-    bool start = false
- 
+    start = False
+
     while True:
         row = cur.fetchone()
- 
+
         if row == None:
             break
 
-        if(start == true):
-        	myDict[row[2]] += 1
-        	start = false
+        if start == True:
+            if row[1] not in myDict:
+                myDict[row[1]] = 0
+            myDict[row[1]]+=1
+            start = False
 
-        if(row[2] == needed):
-        	start = true
-        
- 
-        #print("Product: " + row[1] + "\t\tPrice: " + str(row[2]))
+        if row[1] == needed:
+            start = True
 
+    sorted_dict = sorted(myDict.items(), key=operator.itemgetter(1), reverse = True)
 
-    sorted_dict = sorted(myDict.items(), key=operator.itemgetter(1))
-    
-    int counter = 0
+    counter = 0
 
     for i in sorted_dict:
     	print i
     	counter += 1
-    	if(counter > 5):
+    	if(counter > 6):
     		break
 
 
- 
+
 except psycopg2.DatabaseError, e:
     if con:
         con.rollback()
- 
-    print 'Error %s' % e    
+
+    print 'Error %s' % e
     sys.exit(1)
- 
-finally:   
+
+finally:
     if con:
         con.close()
