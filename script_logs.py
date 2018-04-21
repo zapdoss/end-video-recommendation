@@ -7,7 +7,7 @@ import datetime, psycopg2, os, time
 import io
 import sys
 import re
-logs = open("/media/zapdoss/Beyond/logdumps_all" + "/" + "logs.csv",'w')
+logs = open("logdumps_all" + "/" + "logs.csv",'w')
 
 def copy_to_db(csv_path, cur, table_name):
 	if (os.path.exists(csv_path)):
@@ -63,14 +63,14 @@ def parse_eachline(eachline):
 	number_of_lists= len(frags)
 	return date, timestamp, data_dict, user_id, email_id, msg_dict, msg, number_of_lists
 
-l=2
-while(l<=22):
-    try: 
-        load = json.load(open("/media/zapdoss/Beyond/logdumps_all/logdump_"+str(l)+"00000.json"))
+l=1
+while(l<=17):
+    try:
+        load = json.load(open("logdumps_all/logdump_"+str(l)+"00000.json"))
         l=l+1
         data={}
         for i in load:
-            try: 
+            try:
                 date, timestamp, data_dict, user_id, email_id, msg_dict, msg, number_of_lists = parse_eachline(i["message"])
                 action = str(data_dict['action'])
                 controller = str(data_dict['controller'])
@@ -81,22 +81,22 @@ while(l<=22):
                     if int(user_id) and len(video_id) == 11:
                         if user_id not in data:
                             data[user_id]={}
-                        data[user_id][video_id]=timestamp
+                        data[user_id][video_id]=date+ ',' +timestamp
             except:
                 continue
 
         for i in data.keys():
             for j in data[i].keys():
                 print i, j, data[i][j]
-                logs.write(i+','+j+','+data[i][j]'\n')
+                logs.write(i+','+j+','+ data[i][j]+'\n')
 
-        conn = psycopg2.connect("host='localhost' port='5432' dbname='logs' user='postgres' password='zapdos123'")
+        conn = psycopg2.connect("host='localhost' port='5432' dbname='logs' user='postgres' password='qwerty123'")
         cur = conn.cursor()
 
-        copy_to_db("/media/zapdoss/Beyond/logdumps_all" + "/" + "logs.csv", cur, 'user_video')
+        copy_to_db("logdumps_all" + "/" + "logs.csv", cur, 'user_video')
 
         conn.commit()
-        conn.close()  
+        conn.close()
     except:
         continue
 
