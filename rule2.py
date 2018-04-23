@@ -1,33 +1,33 @@
 import psycopg2
 import sys
- 
+
 
 courses={}
 con = None
- 
+
 try:
-    con = psycopg2.connect("host='localhost' dbname='testdb' user='pythonspot' password='password'")   
+    con = psycopg2.connect("host='localhost' dbname='courses' user='postgres' password='qwerty123'")
     cur = con.cursor()
-    cur.execute("SELECT * FROM courses ORDER BY seq_no")
- 
+    cur.execute("select c.play_list_id, l.youtube_id, rank from contents as c, lectures as l where l.id = c.content_id and c.contenttype = 'l' and c.play_list_id is not null and rank is not null order by play_list_id, c.rank;")
+
     while True:
         row = cur.fetchone()
- 
+
         if row == None:
             break
 
         if row[0] not in courses.keys():
             courses[row[0]]=[]
         courses[row[0]].append(row[1])
- 
+
 except psycopg2.DatabaseError, e:
     if con:
         con.rollback()
- 
-    print 'Error %s' % e    
+
+    print 'Error %s' % e
     sys.exit(1)
- 
-finally:   
+
+finally:
     if con:
         con.close()
 
@@ -49,5 +49,6 @@ def getVideosR2(id):
 
     return vids
 
-#print getVideosR2(3)
+print getVideosR2("ARQ6PZh8vgE")
 
+#print getVideosR2(3)
