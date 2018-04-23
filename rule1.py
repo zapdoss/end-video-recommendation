@@ -65,7 +65,7 @@ finally:
 # courses["cs11"]=[23,54,6,5,44]
 
 
-def getVideosR2(id):
+def getVideosR1(id):
     execute = False
     vids=[]
     for k in range(100):
@@ -85,6 +85,6 @@ def getVideosR2(id):
 
     return vids
 
-print getVideosR2("ARQ6PZh8vgE")
+#print getVideosR2("ARQ6PZh8vgE")
 
 #print getVideosR2(3)
