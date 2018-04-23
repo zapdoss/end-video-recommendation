@@ -65,14 +65,18 @@ finally:
 # courses["cs11"]=[23,54,6,5,44]
 
 
-def getVideosR1(id):
+def fromKenlists(id):
     execute = False
     vids=[]
+
+    counter = 0
+
     for k in range(100):
         for i in courses.keys():
             for j in range(len(courses[i])-k-1):
                 if(courses[i][j]==id):
-                    if courses[i][j+k+1] not in vids:
+                    if courses[i][j+k+1] not in vids and counter < 5:
+                        counter+=1
                         vids.append(courses[i][j+k+1])
 
 
@@ -85,6 +89,6 @@ def getVideosR1(id):
 
     return vids
 
-#print getVideosR2("ARQ6PZh8vgE")
+print getVideosR2("ARQ6PZh8vgE")
 
 #print getVideosR2(3)

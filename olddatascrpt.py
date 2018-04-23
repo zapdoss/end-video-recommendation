@@ -1,35 +1,35 @@
 import psycopg2
 import sys
-import rule1
-import rule2
- 
+import fromKenlists
+import tags
+
 
 usermap={}
 con = None
- 
+
 try:
-    con = psycopg2.connect("host='localhost' dbname='testdb' user='pythonspot' password='password'")   
+    con = psycopg2.connect("host='localhost' dbname='testdb' user='pythonspot' password='password'")
     cur = con.cursor()
     cur.execute("SELECT * FROM user_video ORDER BY date,time")
- 
+
     while True:
         row = cur.fetchone()
- 
+
         if row == None:
             break
 
         if row[0] not in users.keys():
             usermap[row[0]]=[]
         usermap[row[0]].append(row[1])
- 
+
 except psycopg2.DatabaseError, e:
     if con:
         con.rollback()
- 
-    print 'Error %s' % e    
+
+    print 'Error %s' % e
     sys.exit(1)
- 
-finally:   
+
+finally:
     if con:
         con.close()
 
@@ -47,7 +47,7 @@ for k in usermap.keys():
             videos[usermap[k][i]]=[0,0,0]
         mod=0
         #course rule
-        similarVideos=getVideosR1(usermap[k][i])
+        similarVideos=fromKenlists(usermap[k][i])
         if(i<len(usermap[k])-1):
             if(usermap[k][i+1] in similarVideos):
                 videos[usermap[k][i]][0]=videos[usermap[k][i]][0]+1
@@ -57,7 +57,7 @@ for k in usermap.keys():
                 videos[usermap[k][i]][0]=videos[usermap[k][i]][0]+1
                 mod=1
         #tags
-        similarVideos=getVideosR2(usermap[k][i])
+        similarVideos=tags(usermap[k][i])
         if(i<len(usermap[k])-1):
             if(usermap[k][i+1] in similarVideos):
                 videos[usermap[k][i]][1]=videos[usermap[k][i]][1]+1
@@ -73,4 +73,3 @@ for k in usermap.keys():
 
 
 #print getVideosR2(3)
-
