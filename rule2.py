@@ -12,12 +12,9 @@ try:
 
     while True:
         row = cur.fetchone()
-<<<<<<< HEAD
 
-=======
         execute = False
- 
->>>>>>> dffd389de11c34b631dbf0a8280665e928293e7f
+
         if row == None:
             break
 
@@ -25,8 +22,6 @@ try:
             courses[row[0]]=[]
         courses[row[0]].append(row[1])
 
-<<<<<<< HEAD
-=======
 
         # debugging
 
@@ -35,8 +30,6 @@ try:
                 print i #+ row[0]
 
 
- 
->>>>>>> dffd389de11c34b631dbf0a8280665e928293e7f
 except psycopg2.DatabaseError, e:
     if con:
         con.rollback()
@@ -92,14 +85,6 @@ def getVideosR2(id):
 
     return vids
 
-<<<<<<< HEAD
 print getVideosR2("ARQ6PZh8vgE")
-=======
-#print getVideosR2(1)
-
-#print getVideosR2(2)
-
-#print getVideosR2(3)
->>>>>>> dffd389de11c34b631dbf0a8280665e928293e7f
 
 #print getVideosR2(3)
