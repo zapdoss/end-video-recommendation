@@ -1,7 +1,7 @@
 import requests
 import json
 
-def getVideosR1(id):
+def getVideosR2(id):
     tags=json.loads((requests.get("https://www.googleapis.com/youtube/v3/videos?key=AIzaSyCjXSaAJchstnrxGPXd9yR73kp4dIjjNU8&fields=items(snippet(title,description,tags))&part=snippet&id="+id)).content)["items"][0]["snippet"]["tags"]
 
     vids=[]
