@@ -1,6 +1,6 @@
 import psycopg2
 import sys
-import fromKenlists
+import fromKenlist
 import tags
 
 
@@ -8,7 +8,7 @@ usermap={}
 con = None
 
 try:
-    con = psycopg2.connect("host='localhost' dbname='testdb' user='pythonspot' password='password'")
+    con = psycopg2.connect("host='localhost' dbname='logs' user='postgres' password='qwerty123'")
     cur = con.cursor()
     cur.execute("SELECT * FROM user_video ORDER BY date,time")
 
@@ -18,7 +18,7 @@ try:
         if row == None:
             break
 
-        if row[0] not in users.keys():
+        if row[0] not in usermap.keys():
             usermap[row[0]]=[]
         usermap[row[0]].append(row[1])
 
@@ -47,7 +47,7 @@ for k in usermap.keys():
             videos[usermap[k][i]]=[0,0,0]
         mod=0
         #course rule
-        similarVideos=fromKenlists(usermap[k][i])
+        similarVideos=fromKenlist.fromKenlist(usermap[k][i])
         if(i<len(usermap[k])-1):
             if(usermap[k][i+1] in similarVideos):
                 videos[usermap[k][i]][0]=videos[usermap[k][i]][0]+1
@@ -57,7 +57,7 @@ for k in usermap.keys():
                 videos[usermap[k][i]][0]=videos[usermap[k][i]][0]+1
                 mod=1
         #tags
-        similarVideos=tags(usermap[k][i])
+        similarVideos=tags.tags(usermap[k][i])
         if(i<len(usermap[k])-1):
             if(usermap[k][i+1] in similarVideos):
                 videos[usermap[k][i]][1]=videos[usermap[k][i]][1]+1
@@ -69,6 +69,8 @@ for k in usermap.keys():
         #similarusers
         if mod==0:
             videos[usermap[k][i]][2]=videos[usermap[k][i]][2]+1
+
+print videos
 
 
 

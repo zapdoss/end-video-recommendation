@@ -95,4 +95,4 @@ def sequential(id):
         if con:
             con.close()
 
-print sequential("U3MdBNysk9w")
+#print sequential("U3MdBNysk9w")

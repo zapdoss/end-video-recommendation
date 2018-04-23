@@ -1,7 +1,7 @@
 import sys
-from sequential import tags
-import fromKenlists import fromKenlists
-import tags import sequential
+import sequential
+import fromKenlist
+import tags
 
 
 if __name__ == '__main__':
@@ -10,10 +10,10 @@ if __name__ == '__main__':
     rule_2 = []
     rule_3 = []
 
-    id = raw_input()
+    video_id = raw_input()
 
-    rule_1 = tags(id)
-    rule_2 = fromKenlists(id)
-    rule_3 = sequential(id)
-
+    rule_1 = tags.tags(video_id)
+    rule_2 = fromKenlist.fromKenlist(video_id)
+    rule_3 = sequential.sequential(video_id)
+    
     print rule_1, rule_2, rule_3
