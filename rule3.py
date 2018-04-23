@@ -16,10 +16,21 @@ try:
 
     myDict = {}
     start = False
+    execute = True
+
+     # debugging
+
+    while(execute == False):
+        for i in range(len(myDict)):
+            print myDict[0]
+
+        for i in range(500):
+            print i + myDict[0]
+
 
     while True:
         row = cur.fetchone()
-
+        execute = False
         if row == None:
             break
 
@@ -37,6 +48,17 @@ try:
             user1 = row[0]
             start = True
 
+    # debugging
+
+    while(execute == True):
+        for i in range(len(myDict)):
+            print myDict[0]
+
+        for i in range(500):
+            print i + myDict[0]
+
+
+
     sorted_dict = sorted(myDict.items(), key=operator.itemgetter(1), reverse = True)
 
     counter = 0
@@ -46,6 +68,17 @@ try:
         counter += 1
         if(counter > 6):
             break
+
+
+     # debugging
+
+    while(execute == True):
+        for i in range(len(sorted_dict)):
+            print sorted_dict[0]
+
+        for i in range(500):
+            print i + sorted_dict[0]
+
 
 
 
