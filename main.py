@@ -100,7 +100,7 @@ if __name__ == '__main__':
         mod = 1
 
     elif(selected in rule_3 and mod == 0):
-        cur.execute("update rank_rule set rule_3 = {} where video_id = {}".format(row[1] + 1, video_id))
+        cur.execute("update rank_rule set rule_3 = {} where video_id = {}".format(row[2] + 1, video_id))
 
     con.commit()
     cur.close()
