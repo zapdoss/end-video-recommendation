@@ -23,6 +23,7 @@ if __name__ == '__main__':
     rule_3 = sequential.sequential(video_id)
 
     if(row == None):
+        cur.execute("INSERT INTO rank_rule (video_id, rule_1, rule_2, rule_3) VALUES ({} ,{}, {},{})".format(video_id, 5, 3, 0))
         for i in range(min(len(rule_1), 4)):
             videos.append(i)
         for i in range(min(len(rule_2), 4)):
@@ -69,4 +70,38 @@ if __name__ == '__main__':
                     videos.append(i)
                 for i in range(min(len(rule_1), 4)):
                     videos.append(i)
-    print rule_1, rule_2, rule_3
+
+    url = "https://www.googleapis.com/youtube/v3/videos?key=AIzaSyCjXSaAJchstnrxGPXd9yR73kp4dIjjNU8&fields=items(snippet(title,description,tags))&part=snippet&id="
+
+    for i in videos:
+        url += i+','
+
+
+    data = json.loads((requests.get(url)).content)["items"]
+
+    description = []
+
+    for i in data:
+        description.append(i["title"])
+
+    for i in range(len(videos)):
+        print videos[i] +" "+description[i]
+
+    con.commit()
+    selected = raw_input()
+    mod = 0;
+
+    if(selected in rule_1):
+        cur.execute("update rank_rule set rule_1 = {} where video_id = {}".format(row[0] + 1, video_id))
+        mod = 1
+
+    if(selected in rule_2):
+        cur.execute("update rank_rule set rule_2 = {} where video_id = {}".format(row[1] + 1, video_id))
+        mod = 1
+
+    elif(selected in rule_3 and mod == 0):
+        cur.execute("update rank_rule set rule_3 = {} where video_id = {}".format(row[1] + 1, video_id))
+
+    con.commit()
+    cur.close()
+    con.close()
