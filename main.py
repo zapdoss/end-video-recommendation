@@ -71,6 +71,10 @@ if __name__ == '__main__':
                 for i in range(min(len(rule_1), 4)):
                     videos.append(i)
 
+    len_video = len(videos)
+    for i in range(12-len_video):
+        videos.append(rule_2[4+i])
+        
     url = "https://www.googleapis.com/youtube/v3/videos?key=AIzaSyCjXSaAJchstnrxGPXd9yR73kp4dIjjNU8&fields=items(snippet(title,description,tags))&part=snippet&id="
 
     for i in videos:
